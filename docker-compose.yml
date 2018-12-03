@@ -1,0 +1,71 @@
+version: '3'
+services:
+
+  # WEBアプリ
+  web:
+    image: node:10.14-alpine
+    network_mode: host
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    entrypoint: sh -c 'yarn && yarn dev'
+
+  # WEB単体テスト
+  web-test:
+    image: node:10.14-alpine
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    # WEBアプリで実施するyarn install終了後、yarn test:watchを実施
+    command: sh -c "while true; do test -f /app/node_modules/jest/bin/jest.js && break; sleep 120; done; yarn test:watch"
+
+  # Mock Proxy
+  mock-proxy:
+    image: nginx:1.15-alpine
+    ports:
+      - 8080:80
+    depends_on:
+      - mock-api
+    command: >
+      sh -c "
+        echo \"server {\"                                                                                    > /etc/nginx/conf.d/default.conf;
+        echo \"  listen 80;\"                                                                               >> /etc/nginx/conf.d/default.conf;
+        echo \"  charset utf-8;\"                                                                           >> /etc/nginx/conf.d/default.conf;
+        echo \"  location / {\"                                                                             >> /etc/nginx/conf.d/default.conf;
+        echo \"    add_header Access-Control-Allow-Origin '*';\"                                            >> /etc/nginx/conf.d/default.conf;
+        echo \"    add_header Access-Control-Allow-Methods 'GET, POST, PUT, DELETE, OPTIONS';\"             >> /etc/nginx/conf.d/default.conf;
+        echo \"    add_header Access-Control-Allow-Headers 'Origin, Authorization, Accept, Content-Type';\" >> /etc/nginx/conf.d/default.conf;
+        echo \"    add_header Access-Control-Max-Age 3600;\"                                                >> /etc/nginx/conf.d/default.conf;
+        echo \"    proxy_pass http://mock-api:8000;\"                                                       >> /etc/nginx/conf.d/default.conf;
+        echo \"  }\"                                                                                        >> /etc/nginx/conf.d/default.conf;
+        echo \"}\"                                                                                          >> /etc/nginx/conf.d/default.conf;
+        nginx -g 'daemon off;'
+      "
+
+  # Mock API
+  mock-api:
+    image: danielgtaylor/apisprout:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/api
+    entrypoint: '/usr/local/bin/apisprout /api/api.yaml'
+
+  # # BFF
+  # bff:
+  #   image: node:10.14-alpine
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./bff:/app
+  #   working_dir: /app
+  #   command: sh -c "yarn && yarn dev"
+
+  # # BFF単体テスト
+  # bff-test:
+  #   image: node:10.14-alpine
+  #   volumes:
+  #     - ./bff:/app
+  #   working_dir: /app
+  #   # BFFで実施するyarn install終了後、yarn test:watchを実施
+  #   command: sh -c "while true; do test -f /app/node_modules/jest/bin/jest.js && break; sleep 120; done; yarn test:watch"

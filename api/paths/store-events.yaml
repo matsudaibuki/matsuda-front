@@ -1,0 +1,33 @@
+get:
+  operationId: getStoreEvents
+  responses:
+    '200':
+      description: abc
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/StoreEvent'
+          example:
+            - no: 1
+              key: 1
+              id: '0001'
+              storeName: 'イオンモール堺北花田'
+              shiftName: 'IAシフト１'
+            - no: 2
+              key: 2
+              id: '0002'
+              storeName: 'イオンモール堺北花田'
+              shiftName: 'IAシフト２'
+            - no: 3
+              key: 3
+              id: '0003'
+              storeName: 'イオンモール堺北花田'
+              shiftName: '裾上げ受付'
+    default:
+      description: unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIError'

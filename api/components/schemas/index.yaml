@@ -1,0 +1,4 @@
+APIError:
+  $ref: './api-error.yaml'
+StoreEvent:
+  $ref: './store-event.yaml'

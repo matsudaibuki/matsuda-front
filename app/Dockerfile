@@ -1,0 +1,2 @@
+FROM node:11.1-alpine
+EXPOSE 3000

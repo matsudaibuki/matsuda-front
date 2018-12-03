@@ -1,0 +1,14 @@
+openapi: "3.0.0"
+
+info:
+  title: Frontends API
+  version: 0.0.1
+
+servers:
+  - url: http://apimock:8080
+
+paths:
+  $ref: './paths/index.yaml'
+
+components:
+  $ref: './components/index.yaml'

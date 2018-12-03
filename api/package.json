@@ -1,0 +1,10 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "multi-file-swagger -o yaml root-api.yaml > ./api.yaml"
+  },
+  "devDependencies": {
+    "multi-file-swagger": "^2.2.0"
+  }
+}

@@ -1,0 +1,7 @@
+/api/node_modules
+/api/api.yaml
+
+/app/coverage
+/app/node_modules
+/app/out
+/app/src/.next

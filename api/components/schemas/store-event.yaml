@@ -1,0 +1,9 @@
+properties:
+  no:
+    type: integer
+  id:
+    type: string
+  storeName:
+    type: string
+  shiftName:
+    type: string
