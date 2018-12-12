@@ -1,9 +1,14 @@
 import * as React from 'react'
+import { Row, Col } from 'antd'
 
 export class Tutorial extends React.Component {
     render() {
         return(
-            <p>Hello,World</p>
+            <Row>
+                <Col span={8}>
+                    <p>Hello,World</p>
+                </Col>
+            </Row>
         )
     }
 }
