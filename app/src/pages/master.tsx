@@ -1,13 +1,13 @@
 import * as React from 'react'
 
-export class Tutorial extends React.Component {
+export class Master extends React.Component {
     render() {
         return(
             <div>
-                <p>Hello,World</p>
+                <p>Master</p>
             </div>
         )
     }
 }
 
-export default Tutorial
+export default Master
