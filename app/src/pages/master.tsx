@@ -5,6 +5,7 @@ export class Master extends React.Component {
         return(
             <div>
                 <p>Master</p>
+                <p>Master</p>
             </div>
         )
     }
